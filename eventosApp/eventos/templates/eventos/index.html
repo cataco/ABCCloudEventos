@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ABC Eventos</title>
+</head>
+<body>
+<div id="eventos">
+    <script src="//code.jquery.com/jquery-3.3.1.min.js"></script>
+<script>
+        (function () {
+            $.getJSON( "http://localhost:8000/eventos/events/" ).done(function( data ) {
+                $.each(data, function(i,item) {
+                        $("#eventos").prepend('<div>"'+item.fields.name+'"</div>');
+                });
+            });
+        }) ();
+</script>
+</div>
+</body>
+</html>

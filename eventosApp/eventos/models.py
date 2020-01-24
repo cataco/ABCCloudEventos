@@ -1,5 +1,6 @@
 
 from django.db import models
+from django.forms import ModelForm
 from django.utils import timezone
 
 
@@ -12,4 +13,10 @@ class Event(models.Model):
     endDate = models.DateField()
     virtual = models.BooleanField()
     created_date = models.DateTimeField('date created', default=timezone.now)
+
+
+class EventForm(ModelForm):
+    class Meta:
+        model = Event
+        fields = ['name', 'category', 'place', 'address', 'startDate', 'endDate', 'virtual']
 

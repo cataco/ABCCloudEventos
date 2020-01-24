@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script src="//code.jquery.com/jquery-3.3.1.min.js"></script>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+{% block content %}
+<form method="post" id="formEvent" action="http://localhost:8000/eventos/events/" enctype="multipart/form-data">
+    <label>Nombre: </label><input id="name" name="name" type="text" placeholder="Nombre"/><br/>
+    <label>Categoria: </label><input id="category" name="category" type="text" placeholder="Categoria"/><br/>
+    <label>Lugar: </label><input id="place" name="place" type="text" placeholder="Lugar"/><br/>
+    <label>Direccion: </label><input id="address" name="address" type="text" placeholder="Direccion"/><br/>
+    <label>Fecha de Inicio: </label><input id="startDate" name="startDate" type="date" placeholder="Fecha de Inicio"/><br/>
+    <label>Fecha Fin: </label><input id="endDate" name="endDate" type="date" placeholder="Fecha Fin"/><br/>
+    <label>Es Virtual: </label><input id="virtual" name="virtual" type="checkbox" placeholder="Es Virtual"/><br/>
+    <input id="send" name="send" type="submit" value="Adicionar"/>
+    <a href="http://localhost:8000/eventos/">Cancelar</a>
+</form>
+
+{% endblock %}
+<script>
+	$('form').submit(function(e) {
+		var formData = new FormData($('#formEvent')[0]);
+		$.ajax({
+			url: $(this).attr('action'),
+			type: $(this).attr('method'),
+			data: formData,
+			cache: false,
+			contentType: false,
+			processData: false,
+			success: function() {
+				window.location = "http://localhost:8000/eventos/";
+			},
+		});
+		e.preventDefault();
+	});
+</script>
+
+
+</body>
+</html>
