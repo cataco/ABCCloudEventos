@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script src="//code.jquery.com/jquery-3.3.1.min.js"></script>
+
+    <meta charset="UTF-8">
+    <title>Registro</title>
+</head>
+<body>
+    <form method="post" action="" onsubmit="return sendForm();">
+	<input id="email" name="email" type="email" placeholder="ejemplo@correo.com" /><br />
+	<input id="password" name="password" type="password" /><br />
+	<input id="send" name="send" type="submit" value="Registrar" />
+	</form>
+ <script>
+        function sendForm() {
+
+            $.ajax({
+                type: "POST",
+                url: "http://localhost:8000/eventos/addUser/",
+                data: JSON.stringify({  'password': $('#password').val() , 'email': $('#email').val() }),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function(data){
+                    alert("Usuario registrado");
+                    window.location = "http://localhost:8000/eventos/";
+                },
+                failure: function(errMsg) {
+                    alert("Se presentó un error al adicionar el usuario");
+                }
+            });
+            return false;
+        }
+    </script>
+
+</body>
+</html>

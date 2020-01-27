@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta chTitlearset="UTF-8">
+    <title>Editar Evento</title>
+</head>
+<body>
+<body>
+{% block content %}
+<form method="PUT" id="formEdit" action="http://localhost:8000/eventos/events/{{event.id}}/"
+      enctype="multipart/form-data">
+    <label>Id: </label><input id="id" name="id" type="text" value={{event.id}} hidden="true"/>input<br/>
+    <label>Nombre: </label><input id="name" name="name" type="text" placeholder="Nombre" value={{event.name}}/><br/>
+    <label>Categoria: </label><input id="category" name="category" type="text" placeholder="Categoria"
+                                     value={{event.category}}/><br/>
+    <label>Lugar: </label><input id="place" name="place" type="text" placeholder="Lugar" value={{event.place}}/><br/>
+    <label>Direccion: </label><input id="address" name="address" type="text" placeholder="Direccion"
+                                     value={{event.address}}/><br/>
+    <label>Fecha de Inicio: </label><input id="startDate" name="startDate" type="date"
+                                           placeholder="Fecha de Inicio"/><br/>
+    <label>Fecha Fin: </label><input id="endDate" name="endDate" type="date" placeholder="Fecha Fin"/><br/>
+    <label>Es Virtual: </label><input id="virtual" name="virtual" type="checkbox" placeholder="Es Virtual"/><br/>
+    <input id="send" name="send" type="submit" value="Guardar"/>
+    <a href="http://localhost:8000/eventos/">Cancelar</a>
+</form>
+
+{% endblock %}
+<script>
+$('formEdit').submit(function(e) {
+		var formData = new FormData($('#formEdit')[0]);
+		$.ajax({
+			url: $(this).attr('action'),
+			method:  "PUT",
+			data: formData,
+			dataType: "json",
+                beforeSend: function (xhr) {
+                    xhr.setRequestHeader("X-CSRFToken", '{{ csrf_token }}');
+                },
+            headers: { 'X_METHODOVERRIDE': 'PUT' },
+			success: function() {
+				window.location = "http://localhost:8000/eventos/";
+			},
+			error: function() {
+				window.location = "http://localhost:8000/eventos/";
+			}
+		});
+		e.preventDefault();
+	});
+
+</script>
+</body>
+</body>
+</html>
