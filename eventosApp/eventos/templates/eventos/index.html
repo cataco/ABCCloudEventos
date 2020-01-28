@@ -3,15 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <title>ABC Eventos</title>
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 </head>
 <body>
+<header class="w3-container w3-center w3-padding-32">
+  <h1><b>ABC EVENTOS</b></h1>
+  <p>Bienvenido a ABC Eventos</p>
+</header>
 <div>
-    <div>
-    <a href="http://localhost:8000/eventos/loginUser" id="login_user">Login</a>
-    <a href="http://localhost:8000/eventos/registerUser" id="register_user">Registrar</a>
-    <a href="http://localhost:8000/eventos/addNewEvent" id="add_new_event">Adicionar Evento</a>
+    <div class="w3-container w3-padding"><a href="http://localhost:8080/eventos/loginUser" id="login_user" font-family="Georgia" color="green">Login</a></div>
+     <div class="w3-container w3-padding">   <a href="http://localhost:8080/eventos/registerUser" id="register_user">Registrar</a></div>
+      <div class="w3-container w3-padding">  <a href="http://localhost:8080/eventos/addNewEvent" id="add_new_event">Adicionar Evento</a></div>
+      <div class="w3-container w3-padding">  <a href="#" id="close_session" onclick="logout();">Logout</a></div>
     </div>
-    <table class="greenTable">
+    <table class="greenTable" id="eventsTable">
         <thead>
         <tr>
             <th width="30%">Nombre</th>
@@ -82,12 +87,13 @@ table.greenTable tfoot .links a{
 }
 
 
+
 </style>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script>
         (function () {
-            $.getJSON( "http://localhost:8000/eventos/events/" ).done(function( data ) {
+            $.getJSON( "http://localhost:8080/eventos/events/" ).done(function( data ) {
                 $("#tableData").prepend('<tbody>');
                 $.each(data, function(i,item) {
                     $("#tableData").prepend('<tr>');
@@ -103,14 +109,14 @@ table.greenTable tfoot .links a{
 
 	function eliminar(eventId) {
 		$.ajax({
-			url: "http://localhost:8000/eventos/events/"+eventId+"/",
+			url: "http://localhost:8080/eventos/events/"+eventId+"/",
 			type: "DELETE",
                 dataType: "json",
                 beforeSend: function (xhr) {
                     xhr.setRequestHeader("X-CSRFToken", '{{ csrf_token }}');
                 },
 			success: function() {
-				window.location = "http://localhost:8000/eventos/";
+				window.location = "http://localhost:8080/eventos/";
 			},
 			headers: { 'X_METHODOVERRIDE': 'DELETE' }
 
@@ -118,27 +124,43 @@ table.greenTable tfoot .links a{
     }
 
     function editar(eventId) {
-        window.location.replace("http://localhost:8000/eventos/editEvent/"+eventId+"/");
+        window.location.replace("http://localhost:8080/eventos/editEvent/"+eventId+"/");
 
     }
 
     function ver(eventId) {
-		window.location.replace("http://localhost:8000/eventos/events/"+eventId+"/");
+		window.location.replace("http://localhost:8080/eventos/events/"+eventId+"/");
     }
 
 		(function() {
-	$.getJSON( "http://localhost:8000/eventos/isLogged" ).done(function( data ) {
+	$.getJSON( "http://localhost:8080/eventos/isLogged/" ).done(function( data ) {
 		if (data.message =="no") {
 			$("#login_user").show();
 			$("#register_user").show();
 			$("#add_new_event").hide();
+			$("#close_session").hide();
+			$("#eventsTable").hide();
 		} else {
 			$("#login_user").hide();
 			$("#register_user").hide();
 			$("#add_new_event").show();
+			$("#close_session").show();
+			$("#eventsTable").show();
 		}
 	});
 	}) ();
+
+	function logout() {
+        $.getJSON( "http://localhost:8080/eventos/logout" ).done(function( data ) {
+	        if (data.message == "ok") {
+			    window.location = "http://localhost:8080/eventos/";
+            } else {
+			    alert("Se presentó un error al salir de la aplicacion");
+		    }
+	    });
+    }
+
+
 </script>
 </body>
 </html>

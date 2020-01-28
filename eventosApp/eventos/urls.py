@@ -16,6 +16,8 @@ urlpatterns = [
     url(r'^editEvent/(?P<event_id>\d+)/$', views.edit_event, name='editEvent'),
     # url(r'^viewEvent/(?P<event_id>\d+)/$', views.view_event, name='viewEvent'),
     url(r'^loginUser', views.login_user, name='loginUser'),
+    url(r'^logout/$', views.logout_view, name='logout'),
+
 
 
 ]

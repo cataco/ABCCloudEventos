@@ -3,51 +3,61 @@
 <head>
     <meta chTitlearset="UTF-8">
     <title>Editar Evento</title>
+        <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+        <script src="//code.jquery.com/jquery-3.3.1.min.js"></script>
+
 </head>
 <body>
-<body>
+<header class="w3-container w3-center w3-padding-32">
+  <h1><b>ABC EVENTOS</b></h1>
+  <p>Editar Evento</p>
+</header>
 {% block content %}
-<form method="PUT" id="formEdit" action="http://localhost:8000/eventos/events/{{event.id}}/"
+<div class="w3-container">
+<form id="formEdit" name="formEdit" method="PUT" action="" onsubmit="return sendForm();"
       enctype="multipart/form-data">
-    <label>Id: </label><input id="id" name="id" type="text" value={{event.id}} hidden="true"/>input<br/>
-    <label>Nombre: </label><input id="name" name="name" type="text" placeholder="Nombre" value={{event.name}}/><br/>
+    <label hidden="true">Id: </label><input id="idEvent" name="id" type="text" value={{event.id}} hidden="true"/><br/>
+    <label>Nombre: </label><input id="name" name="name" type="text" placeholder="Nombre" value={{event.name}} required maxlength="200" /><br/>
     <label>Categoria: </label><input id="category" name="category" type="text" placeholder="Categoria"
-                                     value={{event.category}}/><br/>
-    <label>Lugar: </label><input id="place" name="place" type="text" placeholder="Lugar" value={{event.place}}/><br/>
+                                     value={{event.category}} required /><br/>
+    <label>Lugar: </label><input id="place" name="place" type="text" placeholder="Lugar" value={{event.place}} required /><br/>
     <label>Direccion: </label><input id="address" name="address" type="text" placeholder="Direccion"
-                                     value={{event.address}}/><br/>
+                                     value={{event.address}} required /><br/>
     <label>Fecha de Inicio: </label><input id="startDate" name="startDate" type="date"
-                                           placeholder="Fecha de Inicio"/><br/>
-    <label>Fecha Fin: </label><input id="endDate" name="endDate" type="date" placeholder="Fecha Fin"/><br/>
+                                           placeholder="Fecha de Inicio" required /><br/>
+    <label>Fecha Fin: </label><input id="endDate" name="endDate" type="date" placeholder="Fecha Fin" required /><br/>
     <label>Es Virtual: </label><input id="virtual" name="virtual" type="checkbox" placeholder="Es Virtual"/><br/>
     <input id="send" name="send" type="submit" value="Guardar"/>
-    <a href="http://localhost:8000/eventos/">Cancelar</a>
+    <a href="http://localhost:8080/eventos/">Cancelar</a>
 </form>
-
 {% endblock %}
 <script>
-$('formEdit').submit(function(e) {
-		var formData = new FormData($('#formEdit')[0]);
+       function sendForm() {
 		$.ajax({
-			url: $(this).attr('action'),
-			method:  "PUT",
-			data: formData,
+			url:"http://localhost:8080/eventos/events/"+$('#idEvent').val() +"/",
+			type: "PUT",
+			data: JSON.stringify({  'id': $('#idEvent').val() ,'name': $('#name').val() , 'category': $('#category').val() , 'place': $('#place').val() , 'address': $('#address').val(), 'startDate': $('#startDate').val(),'endDate': $('#endDate').val(),'virtual': $('#virtual').val()}),
 			dataType: "json",
+			cache: false,
                 beforeSend: function (xhr) {
                     xhr.setRequestHeader("X-CSRFToken", '{{ csrf_token }}');
+                    xhr.setRequestHeader("X_METHODOVERRIDE", 'PUT');
+                    xhr.setRequestHeader("Accept", 'application/json');
+                    xhr.setRequestHeader("contentType", 'application/json');
+
                 },
-            headers: { 'X_METHODOVERRIDE': 'PUT' },
 			success: function() {
-				window.location = "http://localhost:8000/eventos/";
+				window.location = "http://localhost:8080/eventos/";
 			},
-			error: function() {
-				window.location = "http://localhost:8000/eventos/";
+			error: function(ms) {
+			console.log(ms);
+				window.location = "http://localhost:8080/eventos/";
 			}
 		});
-		e.preventDefault();
-	});
+		return false;
+	}
 
 </script>
-</body>
+</div>
 </body>
 </html>

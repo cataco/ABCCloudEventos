@@ -1,10 +1,10 @@
 import json
 
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.http import HttpResponse, JsonResponse, HttpResponseRedirect
 from django.core import serializers
-from django.shortcuts import render, render_to_response
+from django.shortcuts import render, render_to_response, redirect
 from django.urls import reverse
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.authentication import TokenAuthentication
@@ -34,7 +34,7 @@ def edit_event(request, event_id=None):
 @csrf_exempt
 def events_view(request, event_id=None):
     if request.method == 'GET':
-        events_list = Event.objects.order_by('-created_date')
+        events_list = Event.objects.order_by('created_date')
         if event_id is not None:
             event = Event.objects.get(id=event_id)
             context = {'event': event}
@@ -56,12 +56,15 @@ def events_view(request, event_id=None):
         event.save()
         return Response({'message': 'Event was saved'})
     elif request.method == 'PUT':
-        event_data = request.data
+        event_data = json.loads(request.body)
+        virtual = False
+        if event_data['virtual'] == 'on':
+            virtual = True
         Event.objects.filter(id=event_data['id']).update(name=event_data['name'],
                                                          category=event_data['category'], place=event_data['place'],
                                                          address=event_data['address'],
                                                          startDate=event_data['startDate'],
-                                                         endDate=event_data['endDate'], virtual=event_data['virtual'])
+                                                         endDate=event_data['endDate'], virtual=virtual)
         event = Event.objects.filter(id=event_data['id'])
         return HttpResponse(serializers.serialize("json", event), content_type="application/json")
     elif request.method == 'OPTIONS':
@@ -93,12 +96,14 @@ def login_view(request):
         user = authenticate(username=email, password=password)
         if user is not None:
             login(request, user)
-            message = "ok"
+            context = {"message":"ok"}
+            return render(request, 'eventos/index.html', context)
         else:
-            message = 'Email o contraseña incorrectos'
-        return JsonResponse({"message": message})
+            message = 'Email o password incorrectos'
+            return JsonResponse({"message": message})
     else:
         return render(request, "eventos/login.html")
+
 
 @csrf_exempt
 def is_logged_view(request):
@@ -123,3 +128,9 @@ def login_user(request):
 @csrf_exempt
 def register_user_view(request):
     return render(request, "eventos/register.html")
+
+
+@csrf_exempt
+def logout_view(request):
+    logout(request)
+    return JsonResponse({"message": 'ok'})

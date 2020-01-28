@@ -3,39 +3,46 @@
 <head>
     <meta charset="UTF-8">
     <title>Login</title>
+        <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+
 </head>
 <body>
+<header class="w3-container w3-center w3-padding-32">
+  <h1><b>ABC EVENTOS</b></h1>
+  <p>Login</p>
+</header>
 <label id="message"></label><br /><br />
 
 <form method="post" action="" onsubmit="return sendForm();">
-	Usuario <input id="email" name="email" type="text" placeholder="Usuario" /><br />
-	Contraseña <input id="password" name="password" type="password" /><br />
+	Usuario <input id="email" name="email" type="text" placeholder="Usuario" required /><br />
+	Contraseña <input id="password" name="password" type="password" required /><br />
 	<input id="send" name="send" type="submit" value="login" />
 </form>
 <script>
  function sendForm() {
             $.ajax({
                 type: "POST",
-                url: "http://localhost:8000/eventos/login/",
+                url: "http://localhost:8080/eventos/login/",
                 data: JSON.stringify({email: $('#email').val() , password: $('#password').val() }),
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
-                success: function(data) {
-                    console.log(data);
-                    if(data.message == "ok")
+                success: function(response) {
+                    console.log("ZZZZZZZZZZZZZZZZZZZZ")
+                    console.log(response)
+                    console.log("AAAAAAAAA")
+                    if(response.message == "ok")
                     {
-                        window.location = "http://localhost:8000/eventos/";
+                        window.location = "http://localhost:8080/eventos/";
                     }
                     else
                     {
-                        alert(data.message);
+                        alert(response.message);
                     }
                 },
                 failure: function(errMsg) {
                     alert("Se presentó un error al intentar el login");
                 }
             });
-            return false;
         }
     </script>
 

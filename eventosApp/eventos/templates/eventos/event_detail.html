@@ -3,12 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <title>Detalle del Evento</title>
+        <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+
 </head>
 <body>
+<header class="w3-container w3-center w3-padding-32">
+  <h1><b>ABC EVENTOS</b></h1>
+  <p>Detalle de Evento</p>
+</header>
 <div id="evento"></div>
 <script src="//code.jquery.com/jquery-3.3.1.min.js"></script>
 {% block content %}
-<form method="PUT" id="formEdit" action="http://localhost:8000/eventos/events/{{event.id}}/"
+<div class="w3-container">
+
+<form method="PUT" id="formEdit" action="http://localhost:8080/eventos/events/{{event.id}}/"
       enctype="multipart/form-data">
     <label id="id" name="id" type="text" value={{event.id}} hidden="true">{{event.id}}</label><br/>
     <label>Nombre: </label><label id="name" name="name" type="text" placeholder="Nombre" value={{event.name}} >{{event.name}}</label><br/>
@@ -21,9 +29,9 @@
                                                placeholder="Fecha de Inicio">{{event.startDate}}</label><br/>
         <label>Fecha Fin: </label><label id="endDate" name="endDate" type="date" placeholder="Fecha Fin">{{event.endDate}}</label><br/>
         <label>Es Virtual: </label><label id="virtual" name="virtual" type="checkbox" placeholder="Es Virtual">{{event.virtual}}</label> <br/>
-        <a href="http://localhost:8000/eventos/">Regresar</a>
+        <a href="http://localhost:8080/eventos/">Regresar</a>
 </form>
-
+</div>
 {% endblock %}
 
 </body>
