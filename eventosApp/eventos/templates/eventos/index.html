@@ -154,7 +154,7 @@ table.greenTable tfoot .links a{
 	function logout() {
         $.getJSON(  window.location.href+"logout" ).done(function( data ) {
 	        if (data.message == "ok") {
-			    window.location = window.location.href;
+			    window.location = "http://"+window.location.host+"/eventos/";
             } else {
 			    alert("Se presentó un error al salir de la aplicacion");
 		    }
