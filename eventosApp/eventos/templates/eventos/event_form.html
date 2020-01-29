@@ -14,7 +14,7 @@
 </header>
 {% block content %}
 <div class="w3-container">
-    <form method="post" id="formEvent" action="http://localhost:8080/eventos/events/" enctype="multipart/form-data">
+    <form method="post" id="formEvent" action="{{ request..META.HTTP_HOST }}/eventos/events/" enctype="multipart/form-data">
         <label>Nombre: </label><input id="name" name="name" type="text" placeholder="Nombre" required/><br/>
         <label>Categoria: </label><input id="category" name="category" type="text" placeholder="Categoria"
                                          required/><br/>
@@ -25,7 +25,7 @@
         <label>Fecha Fin: </label><input id="endDate" name="endDate" type="date" placeholder="Fecha Fin"/><br/>
         <label>Es Virtual: </label><input id="virtual" name="virtual" type="checkbox" placeholder="Es Virtual"/><br/>
         <input id="send" name="send" type="submit" value="Adicionar"/>
-        <a href="http://localhost:8080/eventos/">Cancelar</a>
+        <a href="{{ request..META.HTTP_HOST }}/eventos">Cancelar</a>
     </form>
 </div>
 {% endblock %}
@@ -43,7 +43,7 @@
 			contentType: false,
 			processData: false,
 			success: function() {
-				window.location = "http://localhost:8080/eventos/";
+				window.location =  "http://"+window.location.host+"/eventos";
 			},
 		});
 		e.preventDefault();

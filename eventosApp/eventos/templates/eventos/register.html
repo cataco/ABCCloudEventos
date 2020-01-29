@@ -22,13 +22,13 @@
 
             $.ajax({
                 type: "POST",
-                url: "http://localhost:8080/eventos/addUser/",
+                url:  "addUser/",
                 data: JSON.stringify({  'password': $('#password').val() , 'email': $('#email').val() }),
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 success: function(data){
                     alert("Usuario registrado");
-                    window.location = "http://localhost:8080/eventos/";
+                    window.location = "http://"+window.location.host+"/eventos/";
                 },
                 failure: function(errMsg) {
                     alert("Se presentó un error al adicionar el usuario");

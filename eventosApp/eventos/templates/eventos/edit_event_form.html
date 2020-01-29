@@ -28,14 +28,15 @@
     <label>Fecha Fin: </label><input id="endDate" name="endDate" type="date" placeholder="Fecha Fin" required /><br/>
     <label>Es Virtual: </label><input id="virtual" name="virtual" type="checkbox" placeholder="Es Virtual"/><br/>
     <input id="send" name="send" type="submit" value="Guardar"/>
-    <a href="http://localhost:8080/eventos/">Cancelar</a>
+    <a href="{{ request..META.HTTP_HOST }}/eventos/">Cancelar</a>
 </form>
 {% endblock %}
 <script>
        function sendForm() {
 		$.ajax({
-			url:"http://localhost:8080/eventos/events/"+$('#idEvent').val() +"/",
+			url:  "/eventos/events/"+$('#idEvent').val() +"/",
 			type: "PUT",
+			method: "PUT",
 			data: JSON.stringify({  'id': $('#idEvent').val() ,'name': $('#name').val() , 'category': $('#category').val() , 'place': $('#place').val() , 'address': $('#address').val(), 'startDate': $('#startDate').val(),'endDate': $('#endDate').val(),'virtual': $('#virtual').val()}),
 			dataType: "json",
 			cache: false,
@@ -47,11 +48,11 @@
 
                 },
 			success: function() {
-				window.location = "http://localhost:8080/eventos/";
+				window.location =  "http://"+window.location.host+"/eventos/";
 			},
 			error: function(ms) {
 			console.log(ms);
-				window.location = "http://localhost:8080/eventos/";
+				window.location =  "http://"+window.location.host+"/eventos/";
 			}
 		});
 		return false;

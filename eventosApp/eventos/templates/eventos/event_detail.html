@@ -16,7 +16,7 @@
 {% block content %}
 <div class="w3-container">
 
-<form method="PUT" id="formEdit" action="http://localhost:8080/eventos/events/{{event.id}}/"
+<form method="PUT" id="formEdit" action="{{ request..META.HTTP_HOST }}/eventos/events/{{event.id}}/"
       enctype="multipart/form-data">
     <label id="id" name="id" type="text" value={{event.id}} hidden="true">{{event.id}}</label><br/>
     <label>Nombre: </label><label id="name" name="name" type="text" placeholder="Nombre" value={{event.name}} >{{event.name}}</label><br/>
@@ -29,7 +29,7 @@
                                                placeholder="Fecha de Inicio">{{event.startDate}}</label><br/>
         <label>Fecha Fin: </label><label id="endDate" name="endDate" type="date" placeholder="Fecha Fin">{{event.endDate}}</label><br/>
         <label>Es Virtual: </label><label id="virtual" name="virtual" type="checkbox" placeholder="Es Virtual">{{event.virtual}}</label> <br/>
-        <a href="http://localhost:8080/eventos/">Regresar</a>
+        <a href="{{ request..META.HTTP_HOST }}/eventos/">Regresar</a>
 </form>
 </div>
 {% endblock %}

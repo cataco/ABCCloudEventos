@@ -22,17 +22,14 @@
  function sendForm() {
             $.ajax({
                 type: "POST",
-                url: "http://localhost:8080/eventos/login/",
+                url:  "/login",
                 data: JSON.stringify({email: $('#email').val() , password: $('#password').val() }),
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 success: function(response) {
-                    console.log("ZZZZZZZZZZZZZZZZZZZZ")
-                    console.log(response)
-                    console.log("AAAAAAAAA")
                     if(response.message == "ok")
                     {
-                        window.location = "http://localhost:8080/eventos/";
+                        window.location = "http://"+document.location.host+"eventos/";
                     }
                     else
                     {
